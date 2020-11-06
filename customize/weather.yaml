@@ -1,0 +1,12 @@
+sensor.forecast_today:
+  friendly_name: Forecast Today
+sensor.dark_sky_temperature:
+  friendly_name: Outside Temp
+sensor.dark_sky_humidity:
+  friendly_name: Humidity
+sensor.dark_sky_daily_summary:
+  friendly_name: Daily Summary
+group.radar:
+  order: 2
+group.weather_card_forecast:
+  order: 1 

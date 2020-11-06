@@ -1,0 +1,65 @@
+input_text:
+  dummy_player_basement:
+    name: Basement Speakers
+  dummy_player_first_floor:
+    name: First Floor
+  dummy_player_outside:
+    name: Outside Speakers
+  dummy_player_whole_house:
+    name: Whole House
+  dummy_player_inside_house:
+    name: Inside House    
+  dummy_player_roku:
+    name: Roku
+  dummy_player_apple:
+    name: Apple
+  harmony:
+    name: Harmony Remote
+    
+media_player:
+  - platform: roku
+  - platform: cast
+    host: 
+      - 192.168.5.185
+      - 192.168.5.186
+  - platform: plex
+    entity_namespace: 'plex'
+    include_non_clients: true
+    scan_interval: 5
+    use_episode_art: true
+  
+remote:
+  - platform: harmony
+    name: Living Room
+
+group:
+  media:
+#  icon: mdi:television-classic
+    name: Media
+    view: yes
+    entities:
+      - group.tv
+      - group.chromecasts
+      - group.media_players
+  tv:
+    name: TV
+    entities:
+      - input_text.harmony
+  chromecasts:
+    name: Chromecasts
+    icon: mdi:cast
+    view: no
+    entities:
+      - input_text.dummy_player_first_floor
+      - input_text.dummy_player_inside_house
+      - input_text.dummy_player_whole_house
+      - input_text.dummy_player_basement
+      - input_text.dummy_player_outside
+  media_players:
+    name: Media Players
+    icon: mdi:rss
+    view: no
+    entities:
+#    - media_player.plex_web_chrome
+      - input_text.dummy_player_roku
+      - input_text.dummy_player_apple    

@@ -1,0 +1,59 @@
+input_text:
+  downstairs_thermostat:
+    name: 1st Floor
+  upstairs_thermostat:
+    name: 2nd Floor
+
+input_number:
+  downstairs_set_temp:
+    name: Downstairs Temp  
+    initial: 70
+    min: 50
+    max: 75
+    step: 1
+#    mode: box
+    unit_of_measurement: °
+  upstairs_set_temp:
+    name: Upstairs Temp  
+    initial: 70
+    min: 50
+    max: 75
+    step: 1
+#    mode: box
+    unit_of_measurement: °    
+
+climate:
+  - platform: zwave
+
+sensor:
+  - platform: template
+    sensors:
+      downstairs_set_temp: 
+        value_template: >
+          Target:{{ states.climate.unknown_id0190_unknown_type0001_id0001_cooling_1.attributes.temperature }}°
+        unit_of_measurement: '°'
+      upstairs_set_temp: 
+        value_template: >
+          Target:{{ states.climate.unknown_id0190_unknown_type0001_id0001_cooling_1_2.attributes.temperature }}°
+        unit_of_measurement: '°'    
+      downstairs_current_temp: 
+        value_template: >
+          1st: {{ states.climate.unknown_id0190_unknown_type0001_id0001_cooling_1.attributes.current_temperature }}°
+        unit_of_measurement: '°'
+      upstairs_current_temp: 
+        value_template: >
+          2nd: {{ states.climate.unknown_id0190_unknown_type0001_id0001_cooling_1_2.attributes.current_temperature }}°
+        unit_of_measurement: '°'    
+     
+group:
+  therm:
+    name: Thermostats
+    view: no
+    icon: mdi:thermometer
+    entities:
+      - input_text.downstairs_thermostat
+      - input_number.downstairs_set_temp
+      - input_number.upstairs_set_temp
+ #   - input_text.upstairs_thermostat
+ #   - climate.unknown_id0190_unknown_type0001_id0001_unused_3_2
+ #   - climate.unknown_id0190_unknown_type0001_id0001_unused_3        

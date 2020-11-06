@@ -1,0 +1,43 @@
+light.philips_lwb014_02bacba4_11:
+  friendly_name: LR Desk Top
+light.philips_lwb014_0281f41e_11:
+  friendly_name: LR Floor Lamp    
+script.lr_lights_on:
+  icon: mdi:flashlight
+script.lr_lights_off:
+  icon: mdi:flashlight-off    
+input_text.lights:
+  custom_ui_state_card: state-card-tiles
+  config:
+    columns: 6
+    row_height: 30px
+    column_width: 50px
+    gap: 15px
+    color: '#555B65'
+    color_on: '#ffff00'
+    color_off: '#555B65'
+    entities:
+    - entity: input_boolean.main_lights
+      icon: mdi:lightbulb
+      label: Living Room
+      text_color_on: '#555B65'
+      column: 1
+      row: 1
+      column_span: 2
+      row_span: 2
+    - entity: input_boolean.island_lights
+      icon: mdi:lightbulb
+      label: Kitchen
+      text_color_on: '#555B65'
+      column: 3
+      row: 1
+      column_span: 2
+      row_span: 2
+    - entity: input_boolean.led_lights
+      icon: mdi:lightbulb
+      label: Accent Lights
+      text_color_on: '#555B65'
+      column: 5
+      row: 1
+      column_span: 2
+      row_span: 2

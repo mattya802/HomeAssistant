@@ -1,0 +1,33 @@
+#climate.unknown_id0190_unknown_type0001_id0001_unused_3_2:
+#  friendly_name: Second Floor
+#climate.unknown_id0190_unknown_type0001_id0001_unused_3:
+#  friendly_name: First Floor
+input_text.downstairs_thermostat:
+  custom_ui_state_card: state-card-tiles
+  config:
+    columns: 4
+    row_height: 30px
+    column_width: 40px
+    gap: 15px
+    color: '#ffffff'
+    color_on: '#ffffff'
+    color_off: '#ffffff'
+    entities:
+    - entity: sensor.downstairs_current_temp
+      label_state: sensor.downstairs_current_temp
+ #     color_on: '#555B65'
+      text_color_on: '#46494d'
+      text_color_off: '#46494d'
+      column: 1
+      row: 1
+      column_span: 2
+      row_span: 2
+    - entity: sensor.upstairs_current_temp
+      label_state: sensor.upstairs_current_temp
+ #     color_on: '#555B65'
+      text_color_on: '#46494d'
+      text_color_off: '#46494d'
+      column: 3
+      row: 1
+      column_span: 2
+      row_span: 2        

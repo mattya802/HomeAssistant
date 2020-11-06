@@ -1,0 +1,23 @@
+script.1514063581161:
+  friendly_name: Sleep
+script.restart_ha:
+  icon: mdi:restart
+script.sleep:
+  icon: mdi:sleep
+script.set_temp_door_code:
+  icon: mdi:lock
+  can_cancel: false
+lock.locked:
+  friendly_name: Side Door
+group.default_view:
+  order: 1
+group.cameras:
+  order: 2
+group.media: 
+  order: 3
+group.device_tracker:
+  order: 4
+group.weather:
+  order: 5
+group.settings:
+  order: 6

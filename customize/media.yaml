@@ -1,0 +1,137 @@
+input_text.dummy_player_basement:
+  icon: mdi:cast
+  custom_ui_state_card: state-card-mini-media-player
+  config:
+    player: media_player.basement_speaker
+    buttons:
+    - name: Pop
+      icon: mdi:music-note
+      script: script.play_pop
+    - name: 90s
+      icon: mdi:music-note
+      script: script.play_90
+    - name: Easy Listening
+      icon: mdi:music-note
+      script: script.play_easy
+    - name: Kids
+      icon: mdi:music-note
+      script: script.play_kids
+input_text.dummy_player_inside_house:
+  icon: mdi:cast
+  custom_ui_state_card: state-card-mini-media-player
+  config:
+    player: media_player.inside_house
+    buttons:
+    - name: Pop
+      icon: mdi:music-note
+      script: script.play_pop
+    - name: 90s
+      icon: mdi:music-note
+      script: script.play_90
+    - name: Easy Listening
+      icon: mdi:music-note
+      script: script.play_easy
+    - name: Kids
+      icon: mdi:music-note
+      script: script.play_kids
+input_text.dummy_player_outside:
+  icon: mdi:cast
+  custom_ui_state_card: state-card-mini-media-player
+  config:
+    player: media_player.living_room_speaker
+    buttons:
+    - name: Pop
+      icon: mdi:music-note
+      script: script.play_pop
+    - name: 90s
+      icon: mdi:music-note
+      script: script.play_90
+    - name: Easy Listening
+      icon: mdi:music-note
+      script: script.play_easy
+    - name: Kids
+      icon: mdi:music-note
+      script: script.play_kids
+input_text.dummy_player_first_floor:
+  icon: mdi:cast
+  custom_ui_state_card: state-card-mini-media-player
+  config:
+    player: media_player.first_floor
+    buttons:
+    - name: Pop
+      icon: mdi:music-note
+      script: script.play_pop
+    - name: 90s
+      icon: mdi:music-note
+      script: script.play_90
+    - name: Easy Listening
+      icon: mdi:music-note
+      script: script.play_easy
+    - name: Kids
+      icon: mdi:music-note
+      script: script.play_kids
+input_text.dummy_player_whole_house:
+  icon: mdi:cast
+  custom_ui_state_card: state-card-mini-media-player
+  config:
+    player: media_player.whole_house
+    buttons:
+    - name: Pop
+      icon: mdi:music-note
+      script: script.play_pop
+    - name: 90s
+      icon: mdi:music-note
+      script: script.play_90
+    - name: Easy Listening
+      icon: mdi:music-note
+      script: script.play_easy
+    - name: Kids
+      icon: mdi:music-note
+      script: script.play_kids
+input_text.dummy_player_roku:
+  icon: mdi:movie
+  custom_ui_state_card: state-card-mini-media-player
+  config:
+    player: media_player.roku_yr0050512831
+input_text.dummy_player_apple:
+  icon: mdi:movie
+  custom_ui_state_card: state-card-mini-media-player
+  config:
+    player: media_player.apple_tv    
+input_text.harmony:
+  custom_ui_state_card: state-card-tiles
+  config:
+    columns: 4
+    row_height: 30px
+    column_width: 40px
+    gap: 15px
+    color: '#555B65'
+    color_on: '#ffff00'
+    color_off: '#555B65'
+    entities:
+    - entity: script.harmony_volume_up
+      icon: mdi:volume-plus
+      column: 1
+      row: 1
+      column_span: 2
+      row_span: 2
+    - entity: script.harmony_volume_down
+      icon: mdi:volume-minus
+      column: 3
+      row: 1
+      column_span: 2
+      row_span: 2
+    - entity: script.harmony_mute
+      icon: mdi:volume-off
+      column: 3
+      row: 3
+      column_span: 2
+      row_span: 2
+    - entity: script.tv_toggle
+      icon: mdi:power
+      column: 1
+      row: 3
+      column_span: 2
+      row_span: 2      
+media_player.basement_speaker:
+  friendly_name: Basement Speakers 

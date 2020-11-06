@@ -1,0 +1,52 @@
+input_boolean:
+  lr_desk:
+    name: Desk
+    initial: off
+  lr_floor:
+    name: Floor
+    initial: off
+  island_lights:
+    name: Kitchen
+    initial: off
+  main_lights:
+    name: Living Room
+    initial: off  
+  led_lights:
+    name: Accent Lights
+    initial: off  
+    
+lutron_caseta:
+  host: 192.168.1.110
+  keyfile: caseta.key
+  certfile: caseta.crt
+  ca_certs: caseta-bridge.crt
+  
+input_text:
+  lr_lights:
+    name: Living Room Lights
+  island_lights:
+    name: Island Lights    
+  main_lights:
+    name: Living Room Lights    
+  lights:
+    name: Lights  
+
+switch:
+  - platform: tplink
+    host: 192.168.5.182
+  - platform: tplink
+    host: 192.168.5.183    
+       
+group:
+  lights:
+    name: Lights
+    entities:
+ #   - light.philips_lwb014_0281f41e_11
+ #   - light.philips_lwb014_02bacba4_11
+      - input_text.lights
+  living_room_lights:
+    name: Living Room
+    view: no
+    entities:
+      - light.philips_lwb014_0281f41e_11
+      - light.philips_lwb014_02bacba4_11         

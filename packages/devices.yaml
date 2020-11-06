@@ -1,0 +1,231 @@
+input_boolean:
+  matt_beacon:
+    name: Matt Beacon Home
+    initial: off
+  
+device_tracker:
+  - platform: nmap_tracker
+    hosts: 
+      - 192.168.5.181
+      - 192.168.5.192
+    home_interval: 5
+    interval_seconds: 15
+    track_new_devices: yes
+    consider_home: 1000
+    scan_options: " -sP --host-timeout 10s"
+     
+#  - platform: mikrotik
+#    host: 192.168.1.1
+#    username: admin
+#    password: !secret mikrotik_password
+    
+#    - platform: owntracks
+#    max_gps_accuracy: 100
+    
+#  - platform: mqtt_json
+#    devices:
+#      my_device: zanzito/mattsphone/location
+      
+  - platform: gpslogger
+    password: !secret gpslogger
+    
+  - platform: ping
+    interval_seconds: 15
+    consider_home: 1000
+    hosts:
+      hostone: 192.168.5.181
+      hosttwo: 192.168.5.192
+      
+mqtt:
+  broker: 192.168.5.10
+  port: 1883
+  username: mqttuser
+  password: !secret mqtt      
+  
+sensor:
+  - platform: template
+    sensors: 
+      matt_home:
+        value_template:
+          "{% if is_state('binary_sensor.matt_tracker', 'on') %}
+          Home
+          {% else %}
+          Away
+          {% endif %}"
+        friendly_name: Matt
+        
+  - platform: template      
+    sensors: 
+      amanda_home:
+        value_template:
+          "{% if is_state('binary_sensor.amanda_tracker', 'on') %}
+          Home
+          {% else %}
+          Away
+          {% endif %}"
+        friendly_name: Amanda
+        
+  - platform: template      
+    sensors: 
+      owen_home:
+        value_template:
+          "{% if is_state('binary_sensor.owen_tracker', 'on') %}
+          Home
+          {% else %}
+          Away
+          {% endif %}"
+        friendly_name: Owen    
+  - platform: template
+    sensors:
+      matt_battery:
+        value_template: '{{ states.device_tracker["355a434a4c353098"].attributes.battery }}' 
+        unit_of_measurement: '%'
+        friendly_name: Matts Battery Level
+#        entity_id: device_tracker.355a434a4c353098
+           
+binary_sensor:
+  - platform: bayesian
+    prior: 0.5
+    probability_threshold: 0.8
+    name: Matt Tracker
+    observations:
+      - entity_id: 'device_tracker.00aefafdbcd8'
+        prob_given_true: 0.9
+        prob_given_false: 0.2
+        platform: 'state'
+        to_state: 'home'
+      - entity_id: 'device_tracker.hosttwo'
+        prob_given_true: 0.9
+        prob_given_false: 0.1
+        platform: 'state'
+        to_state: 'home'
+      - entity_id: 'device_tracker.355a434a4c353098'
+        prob_given_true: 0.8
+        prob_given_false: 0.2
+        platform: 'state'
+        to_state: 'home'
+      - entity_id: 'sensor.sun'
+        prob_given_true: 0.8
+        prob_given_false: 0.3
+        platform: 'state'
+        to_state: 'below_horizon'
+      - entity_id: sensor.weekday
+        prob_given_true: 0.7
+        prob_given_false: 0.2
+        platform: 'state'
+        to_state: Tuesday
+      - entity_id: sensor.weekday
+        prob_given_true: 0.7
+        prob_given_false: 0.2
+        platform: 'state'
+        to_state: Thursday
+ 
+  - platform: bayesian
+    prior: 0.5
+    probability_threshold: 0.8
+    name: Amanda Tracker
+    observations:
+      - entity_id: 'device_tracker.c0a53e73dee4'
+        prob_given_true: 0.9
+        prob_given_false: 0.2
+        platform: 'state'
+        to_state: 'home'
+      - entity_id: 'device_tracker.matt_amandaphone'
+        prob_given_true: 0.6
+        prob_given_false: 0.4
+        platform: 'state'
+        to_state: 'home'
+      - entity_id: 'device_tracker.hostone'
+        prob_given_true: 0.9
+        prob_given_false: 0.1
+        platform: 'state'
+        to_state: 'home'
+      - entity_id: 'sensor.sun'
+        prob_given_true: 0.8
+        prob_given_false: 0.1
+        platform: 'state'
+        to_state: 'below_horizon'  
+      - entity_id: 'media_player.roku_yr0050512831'
+        prob_given_true: 0.7
+        prob_given_false: 0.3
+        platform: 'state'
+        to_state: 'playing'
+        
+  - platform: bayesian
+    prior: 0.5
+    probability_threshold: 0.7
+    name: Owen Tracker
+    observations:
+      - entity_id: 'sensor.matt_home'
+        prob_given_true: 0.7
+        prob_given_false: 0.3
+        platform: 'state'
+        to_state: 'Home'
+      - entity_id: 'sensor.amanda_home'
+        prob_given_true: 0.7
+        prob_given_false: 0.3
+        platform: 'state'
+        to_state: 'Home'     
+      - entity_id: sensor.weekday
+        prob_given_true: 0.8
+        prob_given_false: 0.2
+        platform: 'state'
+        to_state: Tuesday
+      - entity_id: sensor.weekday
+        prob_given_true: 0.8
+        prob_given_false: 0.2
+        platform: 'state'
+        to_state: Thursday
+      - entity_id: sensor.weekday
+        prob_given_true: 0.2
+        prob_given_false: 0.8
+        platform: 'state'
+        to_state: Monday
+      - entity_id: sensor.weekday
+        prob_given_true: 0.2
+        prob_given_false: 0.8
+        platform: 'state'
+        to_state: Wednesday
+      - entity_id: sensor.weekday
+        prob_given_true: 0.2
+        prob_given_false: 0.8
+        platform: 'state'
+        to_state: Friday  
+            
+group:      
+  matt:
+    name: Matt
+    view: no
+    entities:
+      - sensor.matt_home
+      - device_tracker.00aefafdbcd8
+#    - device_tracker.matt_88
+      - device_tracker.hosttwo
+      - device_tracker.355a434a4c353098 
+      - sensor.matt_battery
+  amanda:
+    name: Amanda
+    view: no
+    entities:
+      - sensor.amanda_home
+      - device_tracker.matt_amandaphone
+      - device_tracker.c0a53e73dee4    
+      - device_tracker.hostone
+  owen:
+    name: Owen
+    view: no
+    entities: 
+      - sensor.owen_home  
+  devices_bayesian:
+    view: no
+    name: Bayesian Trackers
+    entities:
+      - binary_sensor.matt_tracker
+      - binary_sensor.amanda_tracker
+  device_tracker:
+    name: Devices
+    view: yes
+    entities:
+      - group.matt
+      - group.amanda     
+      - group.owen

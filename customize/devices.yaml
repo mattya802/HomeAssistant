@@ -1,0 +1,13 @@
+sensor.matt_home:
+  entity_picture: /local/matt.jpg
+sensor.amanda_home:
+  entity_picture: /local/amanda.jpg
+sensor.owen_home:  
+  entity_picture: /local/owen.jpg        
+zone.home:
+  beacon:
+    uuid: B9407F30-F5F8-466E-AFF9-25556B57FE6D
+    major: 35963
+    minor: 31585    
+sensor.matt_battery:
+  icon: mdi:battery
