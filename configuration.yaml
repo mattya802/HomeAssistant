@@ -40,10 +40,10 @@ frontend:
 camera:
   - platform: generic
     name: Driveway
-    still_image_url: http://192.168.5.153/cgi-bin/api.cgi?cmd=Snap&channel=0&rs=4f5df5e6&user=admin&password=Comein802!
+    still_image_url: http://192.168.5.153/cgi-bin/api.cgi?cmd=Snap&channel=0&rs=4f5df5e6&user=admin&password=
   - platform: generic
     name: Backyard
-    still_image_url: http://192.168.1.152/cgi-bin/api.cgi?cmd=Snap&channel=0&rs=4f5df5e6&user=admin&password=Comein802!    
+    still_image_url: http://192.168.1.152/cgi-bin/api.cgi?cmd=Snap&channel=0&rs=4f5df5e6&user=admin&password=
   - platform: generic
     name: Radar
     still_image_url: https://radblast.wunderground.com/cgi-bin/radar/WUNIDS_map?station=BOX&brand=wui&num=1&delay=15&type=N0R&frame=0&scale=1.000&noclutter=0&showstorms=0&mapx=400&mapy=240&centerx=400&centery=240&transx=0&transy=0&showlabels=1&severe=0&rainsnow=0&lightning=0&smooth=1&rand=25281821&lat=0&lon=0&label=you
