@@ -1,0 +1,61 @@
+default_view:
+  view: yes
+  name: Home
+  entities:
+    - group.lights
+    - group.chromecasts
+    - group.weather_card_today
+    - group.doors  
+cameras:
+  name: Cameras
+  view: yes
+  entities:
+    - camera.driveway
+    - camera.backyard
+settings:
+  view: yes
+  name: Settings
+  entities:
+    - group.hass
+    - group.nzb
+    - group.crypto
+    - group.scripts
+    - group.automations    
+nzb:
+  name: Downloader
+  view: no
+  entities:
+    - sensor.nzbget_download_paused
+    - sensor.nzbget_queue_size
+crypto:
+  name: Crypto
+  view: no
+  icon: mdi:bitcoin
+  entities:
+    - sensor.ripple
+    - sensor.icon
+#    - sensor.request_network
+    - sensor.vechain    
+scripts:
+  name: Scripts
+  view: no
+  icon: mdi:code-braces
+  entities:
+    - script.sleep
+    - script.set_temp_door_code
+hass:
+  name: HA
+  view: no
+  entities:
+    - script.restart_ha
+automations:
+  name: Automations
+  view: no
+  entities:
+    - automation.both_left_the_house
+    - automation.come_home
+doors:
+  name: Doors
+  view: no
+  entities: 
+    - lock.locked  

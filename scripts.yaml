@@ -1,0 +1,246 @@
+motion:
+  sequence:
+  - data:
+      entity_id: media_player.kitchen_speaker
+      message: Motion in driveway
+    service: tts.google_say
+sleep:
+  alias: Sleep
+  sequence:
+  - data:
+      brightness: 80
+      entity_id: light.main_lights
+    service: light.turn_on
+  - data:
+      entity_id: input_boolean.island_lights
+    service: input_boolean.turn_off
+  - data:
+      entity_id: light.philips_lwb014_0281f41e_11
+    service: light.turn_off
+  - data:
+      entity_id: remote.harmony_hub
+    service: remote.turn_off
+  - data:
+      entity_id: lock.locked
+    service: lock.lock
+sunset:
+  alias: Sunset
+  sequence:
+  - data:
+      entity_id: light.main_lights
+      transition: 300
+    service: light.turn_on
+  - data:
+      entity_id: light.lsland_lights
+      transition: 300
+    service: light.turn_on
+  - data:
+      entity_id: input_boolean.led_lights
+    service: input_boolean.turn_on
+kitchen_lights_on:
+  alias: Kitchen Lights On
+  sequence:
+  - data:
+      entity_id: input_boolean.island_lights
+    service: input_boolean.turn_on
+lr_lights_on:
+  alias: LR Lights On
+  sequence:
+  - data:
+      entity_id: input_boolean.main_lights
+    service: input_boolean.turn_on
+lr_lights_off:
+  alias: LR Lights Off
+  sequence:
+  - data:
+      entity_id: input_boolean.main_lights
+    service: input_boolean.turn_off
+come_home_lights:
+  alias: Come Home Lights On
+  sequence:
+  - after: sunrise
+    after_offset: 00:45:00
+    before: sunset
+    before_offset: -00:30:00
+    condition: sun
+  - data:
+      entity_id: input_boolean.main_lights
+    service: input_boolean.turn_on
+  - data:
+      entity_id: input_boolean.island_lights
+    service: input_boolean.turn_on
+come_home:
+  alias: Come home
+  sequence:
+  - data:
+      entity_id: input_boolean.matt_beacon
+    service: input_boolean.turn_on
+  - condition: state
+    entity_id: group.devices_bayesian
+    state: 'off'
+  - data:
+      entity_id: script.come_home_lights
+    service: script.turn_on
+  - data:
+      event: come_home
+      value1: beacon trigger
+    service: ifttt.trigger
+  - data:
+      entity_id: lock.locked
+    service: lock.unlock
+'1516419756538':
+  alias: Set Temp
+  sequence:
+  - data:
+      entity_id: climate.blank
+      temperature: '75'
+    service: climate.set_temperature
+play_pop:
+  sequence:
+    service: media_player.play_media
+    data:
+      media_content_id: http://c3icyelb.prod.playlists.ihrhls.com/4422_icy
+      media_content_type: audio/mp3
+    data_template:
+      entity_id: '{{ entity_id }}'
+play_kids:
+  sequence:
+    service: media_player.play_media
+    data:
+      media_content_id: http://c9icyelb.prod.playlists.ihrhls.com/7223_icy
+      media_content_type: audio/mp3
+    data_template:
+      entity_id: '{{ entity_id }}'
+play_90:
+  sequence:
+    service: media_player.play_media
+    data:
+      media_content_id: http://c1icyelb.prod.playlists.ihrhls.com/6834_icy
+      media_content_type: audio/mp3
+    data_template:
+      entity_id: '{{ entity_id }}'
+play_easy:
+  sequence:
+    service: media_player.play_media
+    data:
+      media_content_id: http://ih-streaming.cmgdigital.com/mia931/mia931-iheart.aac
+      media_content_type: audio/mp3
+    data_template:
+      entity_id: '{{ entity_id }}'
+restart_ha:
+  alias: Restart HA
+  sequence:
+    service: homeassistant.restart
+ha_startup_floor_check:
+  alias: HA Startup Floor Check
+  sequence:
+  - condition: state
+    entity_id: light.philips_lwb014_0281f41e_11
+    state: 'on'
+  - data:
+      entity_id: input_boolean.lr_floor
+    service: input_boolean.turn_on
+ha_startup_island_check:
+  alias: HA Startup Island Check
+  sequence:
+  - condition: state
+    entity_id: light.island_lights
+    state: 'on'
+  - data:
+      entity_id: input_boolean.island_lights
+    service: input_boolean.turn_on
+ha_startup_main_check:
+  alias: HA Startup Main Lights Check
+  sequence:
+  - condition: state
+    entity_id: light.main_lights
+    state: 'on'
+  - data:
+      entity_id: input_boolean.main_lights
+    service: input_boolean.turn_on
+ha_startup_led_check:
+  alias: HA Startup Led Strip Lights Check
+  sequence:
+  - condition: state
+    entity_id: switch.lr_led
+    state: 'on'
+  - data:
+      entity_id: input_boolean.main_lights
+    service: input_boolean.turn_on
+harmony_volume_up:
+  alias: Turn AV Volume Up
+  sequence:
+    service: remote.send_command
+    data:
+      entity_id: remote.harmony_hub
+      device: 51478491
+      command: VolumeUp
+      num_repeats: 5
+      delay_secs: 0.25
+harmony_volume_down:
+  alias: Turn AV Volume Down
+  sequence:
+    service: remote.send_command
+    data:
+      entity_id: remote.harmony_hub
+      device: 51478491
+      command: VolumeDown
+      num_repeats: 5
+      delay_secs: 0.25
+harmony_mute:
+  alias: Mute AV
+  sequence:
+    service: remote.send_command
+    data:
+      entity_id: remote.harmony_hub
+      device: 51478491
+      command: Mute
+tv_toggle:
+  alias: Toggle TV
+  sequence:
+    service: remote.send_command
+    data:
+      entity_id: remote.harmony_hub
+      device: 51478491
+      command: PowerToggle
+upstairs_temp_up:
+  alias: Turn Upstairs Temp Up 1
+  sequence:
+    service: climate.set_temperature
+    data:
+      entity_id: climate.unknown_id0190_unknown_type0001_id0001_cooling_1_2
+      temperature: sensor.downstairs_set_temp
+upstairs_temp_down:
+  alias: Turn Upstairs Temp Down 1
+  sequence:
+    service: climate.set_temperature
+    data:
+      entity_id: climate.unknown_id0190_unknown_type0001_id0001_cooling_1
+      temperature: 70
+downstairs_temp_up:
+  alias: Turn Downstairs Temp Up 1
+  sequence:
+    service: climate.set_temperature
+    data:
+      entity_id: climate.unknown_id0190_unknown_type0001_id0001_unused_3_2
+      temperature: 70
+downstairs_temp_down:
+  alias: Turn Downstairs Temp Down 1
+  sequence:
+    service: climate.set_temperature
+    data:
+      entity_id: climate.unknown_id0190_unknown_type0001_id0001_unused_3_2
+      temperature: 70
+set_temp_door_code:
+  alias: Set Temporary Door Code
+  sequence:
+  - data:
+      code_slot: 100
+      node_id: 7
+      usercode: 9999
+    service: lock.set_usercode
+  - delay: 01:00:00
+  - data:
+      code_slot: 100
+      node_id: 7
+    service: lock.clear_usercode

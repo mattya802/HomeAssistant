@@ -1,0 +1,500 @@
+- action:
+  - data:
+      entity_id: remote.harmony_hub
+      activity: Music
+    service: remote.turn_on
+  - data:
+      entity_id: remote.harmony_hub
+      device: 51478491
+      command: SpeakerA
+    service: remote.send_command
+  alias: Turn on speakers A for first floor
+  id: '1514689677269'
+  trigger:
+  - entity_id: media_player.first_floor
+    from: idle
+    platform: state
+    to: playing
+  - entity_id: media_player.first_floor
+    from: 'off'
+    platform: state
+    to: playing
+- action:
+  - data:
+      entity_id: remote.harmony_hub
+      activity: Music
+    service: remote.turn_on
+  - data:
+      entity_id: remote.harmony_hub
+      device: 51478491
+      command: SpeakerA
+    service: remote.send_command
+  alias: Turn on speakers A for whole house
+  id: '1514689677269'
+  trigger:
+  - entity_id: media_player.whole_house
+    from: idle
+    platform: state
+    to: playing
+  - entity_id: media_player.whole_house
+    from: 'off'
+    platform: state
+    to: playing
+- action:
+  - data:
+      event: HA_Startup
+      value1: Hassio started!
+    service: ifttt.trigger
+  alias: Startup
+  condition: []
+  id: '1514770111320'
+  trigger:
+  - event: start
+    platform: homeassistant
+- action:
+  - data:
+      event: HA_Shutdown
+      value1: Hassio shutdown
+    service: ifttt.trigger
+  alias: Shutdown
+  condition: []
+  id: '1514816073256'
+  trigger:
+  - event: shutdown
+    platform: homeassistant
+- action:
+  - data:
+      entity_id: script.sunset
+    service: script.turn_on
+  alias: Turn on Lights at Sunset
+  condition:
+  - condition: state
+    entity_id: group.all_devices
+    state: home
+  id: '1515529621298'
+  trigger:
+  - event: sunset
+    offset: -00:30:00
+    platform: sun
+- action:
+  - data:
+      entity_id: input_boolean.main_lights
+    service: input_boolean.turn_on
+  - data:
+      entity_id: input_boolean.island_lights
+    service: input_boolean.turn_on
+  alias: Turn lights on in Morning
+  condition: []
+  id: '1515593510459'
+  trigger:
+  - at: '5:30'
+    platform: time
+- action:
+  - data:
+      entity_id: input_boolean.main_lights
+    service: input_boolean.turn_off
+  - data:
+      entity_id: light.island_lights
+      brightness: 125
+    service: light.turn_on
+  - data:
+      entity_id: input_boolean.island_lights
+    service: input_boolean.turn_on
+  alias: Turn lights off 90 minutes after sunrise
+  condition: []
+  id: '1516112607524'
+  trigger:
+  - event: sunrise
+    offset: 01:30:00
+    platform: sun
+- action:
+  - data:
+      entity_id: media_player.kitchen_speaker
+      message: Ripple at 2 dollars
+    service: tts.google_say
+  - data:
+      event: ripple
+      value1: XRP over $2!
+    service: ifttt.trigger
+  alias: Ripple Price
+  condition: []
+  id: '1516419323307'
+  trigger:
+  - entity_id: sensor.ripple
+    platform: state
+    to: '2'
+- action:
+  - data:
+      event: nzbget_alert
+      value1: NZBGet Stopped
+    service: ifttt.trigger
+  alias: NZBGet Stopped
+  condition: []
+  id: '1516419506433'
+  trigger:
+  - entity_id: sensor.nzbget_download_paused
+    from: 'False'
+    platform: state
+    to: 'True'
+- action:
+  - data:
+      entity_id: media_player.kitchen_speaker
+      message: Icon at 10 dollars!
+    service: tts.google_say
+  - data:
+      event: icon
+      value1: ICON over $10
+    service: ifttt.trigger
+  alias: Icon Price
+  condition: []
+  id: '1516420612420'
+  trigger:
+  - entity_id: sensor.icon
+    platform: state
+    to: '10'
+- action:
+  - data:
+      entity_id: input_boolean.main_lights
+    service: input_boolean.turn_off
+  - data:
+      entity_id: input_boolean.island_lights
+    service: input_boolean.turn_off
+  - data:
+      event: both_left
+      value1: both left the house
+    service: ifttt.trigger
+  - data:
+      entity_id: lock.locked
+    service: lock.lock
+  alias: Both left the house
+  condition: []
+  id: '1516421065047'
+  trigger:
+  - entity_id: group.devices_bayesian
+    from: 'on'
+    platform: state
+    to: 'off'
+- action:
+  - data:
+      entity_id: input_boolean.main_lights
+    service: input_boolean.turn_on
+  - data:
+      entity_id: input_boolean.island_lights
+    service: input_boolean.turn_on
+  - data:
+      event: come_home_automation
+      value1: come home automation
+    service: ifttt.trigger
+  - data:
+      entity_id: lock.locked
+    service: lock.unlock
+  alias: Come home
+  condition: []
+  id: '1516423965338'
+  trigger:
+  - entity_id: group.devices_bayesian
+    from: 'off'
+    platform: state
+    to: 'on'
+- action:
+  - service: python_script.dark_sky_friendly_names
+    data_template:
+      entityid: '{{trigger.entity_id}}'
+  id: update_friendly_names
+  alias: Update Dark Sky Friendly Names
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.forecast_1
+    - sensor.forecast_2
+    - sensor.forecast_3
+    - sensor.forecast_4
+    - sensor.forecast_5
+    - sensor.forecast_6
+    - sensor.forecast_7
+  - platform: homeassistant
+    event: start
+- action:
+  - data:
+      entity_id: light.philips_lwb014_02bacba4_11
+    service: light.turn_off
+  alias: Input Boolean off for Desk
+  condition: []
+  id: ib_off_desk
+  trigger:
+  - entity_id: input_boolean.lr_desk
+    from: 'on'
+    platform: state
+    to: 'off'
+- action:
+  - data:
+      entity_id: light.philips_lwb014_02bacba4_11
+      brightness: 255
+    service: light.turn_on
+  alias: Input Boolean on for Desk
+  condition: []
+  id: ib_on_desk
+  trigger:
+  - entity_id: input_boolean.lr_desk
+    from: 'off'
+    platform: state
+    to: 'on'
+- action:
+  - data:
+      entity_id: light.philips_lwb014_0281f41e_11
+      brightness: 255
+    service: light.turn_on
+  alias: Input Boolean on for Floor
+  condition: []
+  id: ib_on_floor
+  trigger:
+  - entity_id: input_boolean.lr_floor
+    from: 'off'
+    platform: state
+    to: 'on'
+- action:
+  - data:
+      entity_id: light.philips_lwb014_0281f41e_11
+    service: light.turn_off
+  alias: Input Boolean off for Floor
+  condition: []
+  id: ib_off_floor
+  trigger:
+  - entity_id: input_boolean.lr_floor
+    from: 'on'
+    platform: state
+    to: 'off'
+- action:
+  - data:
+      entity_id: light.island_lights
+      brightness: 255
+    service: light.turn_on
+  alias: Input Boolean on for island
+  condition: []
+  id: ib_on_island
+  trigger:
+  - entity_id: input_boolean.island_lights
+    from: 'off'
+    platform: state
+    to: 'on'
+- action:
+  - data:
+      entity_id: light.island_lights
+    service: light.turn_off
+  alias: Input Boolean off for island
+  condition: []
+  id: ib_off_island
+  trigger:
+  - entity_id: input_boolean.island_lights
+    from: 'on'
+    platform: state
+    to: 'off'
+- action:
+  - data:
+      entity_id: light.main_lights
+      brightness: 255
+    service: light.turn_on
+  alias: Input Boolean on for main
+  condition: []
+  id: ib_on_main
+  trigger:
+  - entity_id: input_boolean.main_lights
+    from: 'off'
+    platform: state
+    to: 'on'
+- action:
+  - data:
+      entity_id: light.main_lights
+    service: light.turn_off
+  alias: Input Boolean off for main
+  condition: []
+  id: ib_off_main
+  trigger:
+  - entity_id: input_boolean.main_lights
+    from: 'on'
+    platform: state
+    to: 'off'
+- action:
+  - data:
+      entity_id: switch.lr_left
+    service: switch.turn_on
+  - data:
+      entity_id: switch.lr_right
+    service: switch.turn_on
+  alias: Input Boolean on for led strips
+  condition: []
+  id: ib_on_led
+  trigger:
+  - entity_id: input_boolean.led_lights
+    from: 'off'
+    platform: state
+    to: 'on'
+- action:
+  - data:
+      entity_id: switch.lr_left
+    service: switch.turn_off
+  - data:
+      entity_id: switch.lr_right
+    service: switch.turn_off
+  alias: Input Boolean off for led strips
+  condition: []
+  id: ib_off_led
+  trigger:
+  - entity_id: input_boolean.led_lights
+    from: 'on'
+    platform: state
+    to: 'off'
+- action:
+  - alias: Startup Scripts
+    data:
+      entity_id: script.ha_startup_floor_check
+    service: script.turn_on
+  - data:
+      entity_id: script.ha_startup_desk_check
+    service: script.turn_on
+  - data:
+      entity_id: script.ha_startup_island_check
+    service: script.turn_on
+  - data:
+      entity_id: script.ha_startup_main_check
+    service: script.turn_on
+  - data:
+      entity_id: script.ha_startup_led_check
+    service: script.turn_on
+  alias: Hass Startup
+  condition: []
+  id: '1518541320521'
+  trigger:
+  - event: start
+    platform: homeassistant
+- action:
+  - data:
+      entity_id: input_boolean.island_lights
+    service: input_boolean.turn_on
+  alias: Physical Button On Island
+  condition:
+  - condition: state
+    entity_id: input_boolean.island_lights
+    state: 'off'
+  id: island_switch_on
+  trigger:
+  - entity_id: light.island_lights
+    from: 'off'
+    platform: state
+    to: 'on'
+- action:
+  - data:
+      entity_id: input_boolean.island_lights
+    service: input_boolean.turn_off
+  alias: Physical Button Off Island
+  condition:
+  - condition: state
+    entity_id: input_boolean.island_lights
+    state: 'on'
+  id: island_switch_off
+  trigger:
+  - entity_id: light.island_lights
+    from: 'on'
+    platform: state
+    to: 'off'
+- action:
+  - data:
+      entity_id: input_boolean.main_lights
+    service: input_boolean.turn_on
+  alias: Physical Button On Main
+  condition:
+  - condition: state
+    entity_id: input_boolean.main_lights
+    state: 'off'
+  id: main_switch_on
+  trigger:
+  - entity_id: light.main_lights
+    from: 'off'
+    platform: state
+    to: 'on'
+- action:
+  - data:
+      entity_id: input_boolean.main_lights
+    service: input_boolean.turn_off
+  alias: Physical Button Off Main
+  condition:
+  - condition: state
+    entity_id: input_boolean.main_lights
+    state: 'on'
+  id: main_switch_off
+  trigger:
+  - entity_id: light.main_lights
+    from: 'on'
+    platform: state
+    to: 'off'
+- action:
+  - data:
+      entity_id: input_boolean.lr_floor
+    service: input_boolean.turn_on
+  alias: Sync LR Floor On
+  condition: []
+  id: sync_lr_floor_on
+  trigger:
+  - entity_id: input_boolean.main_lights
+    from: 'off'
+    platform: state
+    to: 'on'
+- action:
+  - data:
+      entity_id: input_boolean.lr_floor
+    service: input_boolean.turn_off
+  alias: Sync LR Floor Off
+  condition: []
+  id: sync_lr_floor_off
+  trigger:
+  - entity_id: input_boolean.main_lights
+    from: 'on'
+    platform: state
+    to: 'off'
+- action:
+  - data:
+      entity_id: input_boolean.led_lights
+    service: input_boolean.turn_on
+  alias: Sync LR LEDs On
+  condition:
+  - after: sunset
+    condition: sun
+  id: sync_lr_leds_on
+  trigger:
+  - entity_id: input_boolean.main_lights
+    from: 'off'
+    platform: state
+    to: 'on'
+- action:
+  - data:
+      entity_id: input_boolean.led_lights
+    service: input_boolean.turn_off
+  alias: Sync LR LEDs Off
+  condition: []
+  id: sync_lr_leds_off
+  trigger:
+  - entity_id: input_boolean.main_lights
+    from: 'on'
+    platform: state
+    to: 'off'
+- action:
+  - data:
+      entity_id: input_boolean.led_lights
+    service: input_boolean.turn_off
+  alias: Turn off LED strips at 745
+  condition: []
+  id: lr_leds_off_bedtime
+  trigger:
+  - at: '19:45'
+    platform: time
+- action:
+  - data:
+      entity_id: input_boolean.matt_beacon
+    service: input_boolean.turn_off
+  alias: Turn off matt_beacon when I leave
+  condition: []
+  trigger:
+  - entity_id: binary_sensor.matt_tracker
+    from: 'on'
+    platform: state
+    to: 'off'
